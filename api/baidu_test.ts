@@ -7,10 +7,7 @@ Deno.test("translate", async () => {
 });
 
 Deno.test("translate_json", async () => {
-  const testJson = `{"does not work.":"does not work.","hello":"Hello"}`;
+  const testJson = `{"does not work":"does not work","hello":"Hello"}`;
   const res = await translate_json(testJson);
-  assertEquals(
-    res.trans_result[0].dst,
-    `{"does not work.": "不工作"},"hello":"你好"`
-  );
+  assertEquals(res, `{"does not work":"不起作用","hello":"你好"}`);
 });
