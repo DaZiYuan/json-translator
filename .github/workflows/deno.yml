@@ -21,5 +21,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: json-translator # the name of the project on Deno Deploy
-          root: src
           entrypoint: app.ts # the entrypoint to deploy

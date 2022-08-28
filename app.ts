@@ -4,7 +4,7 @@ const router = new Router();
 router
   .get("/", async (context) => {
     await context.send({
-      root: `${Deno.cwd()}\\src\\static`,
+      root: `${Deno.cwd()}\\static`,
       index: "index.html",
     });
   })
