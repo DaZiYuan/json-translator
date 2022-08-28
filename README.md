@@ -1,2 +1,7 @@
 # json-translator
-json在线翻译
+
+json 在线翻译
+
+# 翻译 api 文档
+
+https://fanyi-api.baidu.com/doc/21
