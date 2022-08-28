@@ -1,3 +1,4 @@
+import { translate_json, translate } from "./api/baidu.ts";
 import { Router, Application, staticFiles } from "./deps.ts";
 
 const router = new Router();
@@ -8,9 +9,12 @@ router
   //     index: "index.html",
   //   });
   // })
-  .get("/api/baidu/:json", (context) => {
+  .get("/api/baidu/:json", async (context) => {
     if (context.params && context.params.json) {
-      context.response.body = context.params.json + "2";
+      // const res = await translate(context.params.json);
+      const tmpJson = JSON.stringify(context.params.json);
+      const res = await translate_json(tmpJson);
+      context.response.body = res;
     }
   });
 

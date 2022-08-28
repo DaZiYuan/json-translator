@@ -39,8 +39,15 @@ export async function translate(query: string): Promise<baidu_result> {
 }
 
 export async function translate_json(json: string): Promise<string> {
-  const _obj = JSON.parse(json);
+  let _obj = JSON.parse(json);
+  //if obj is string
+  if (typeof _obj === "string") {
+    _obj = {
+      content: _obj,
+    };
+  }
   const contents = _GetContents(json);
+  console.log(_obj, contents);
   const translateRes = await translate("\r\n" + contents.join("\r\n"));
   let i = 0;
   for (const pName in _obj) {
