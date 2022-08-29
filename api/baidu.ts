@@ -1,6 +1,5 @@
-import { configAsync } from "../deps.ts";
 import { crypto } from "https://deno.land/std@0.126.0/crypto/mod.ts";
-import { consumeMediaParam } from "https://deno.land/std@0.152.0/media_types/_util.ts";
+import { configAsync } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 
 export class trans_result {
   dst?: string;
@@ -18,9 +17,9 @@ export async function translate(query: string): Promise<baidu_result> {
   const to = "zh";
 
   const envConfig = await configAsync();
-  console.log("appid", envConfig.appid);
-  const appid: string = envConfig.appid;
-  const key: string = envConfig.secret;
+  console.log("appid", envConfig.appid, Deno.env.get("appid"));
+  const appid: string = envConfig.appid ?? Deno.env.get("appid")!;
+  const key: string = envConfig.secret ?? Deno.env.get("secret");
   const salt = new Date().getTime().toString();
   const sign: string = await _MD5(appid + query + salt + key);
 
