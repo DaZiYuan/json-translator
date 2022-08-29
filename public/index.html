@@ -44,21 +44,21 @@
                 let json = this.input;
                 if (!this._isJson(json)) {
                     //尝试修复json
-                    json = JSON.stringify(eval(`(${json})`));
+                    json = eval(`(${json})`);
                     this.input = json;
                     console.log("fix json", json);
-                };
-
-                if (!this._isJson(json)) {
-                    this.result = "请输入有效的json";
-                    return;
                 }
+                else
+                    json = JSON.parse(json);
 
-                const res = await fetch(`/api/baidu/${encodeURI(json)}`, {
-                    method: 'Get',
+                this.input = JSON.stringify(json);
+
+                const res = await fetch(`/api/baidu`, {
+                    method: 'Post',
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: JSON.stringify({ json })
                 })
                 this.result = await res.text();
             }

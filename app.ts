@@ -12,9 +12,18 @@ function _isJson(str: string) {
 }
 
 const router = new Router();
-router.get("/api/baidu/:json", async (context) => {
-  if (context.params && context.params.json) {
-    const json = decodeURI(context.params.json);
+router.post("/test", async (context) => {
+  const body = context.request.body();
+  console.log("test", body);
+  if (body.type === "json") {
+    context.response.body = await body.value;
+  }
+});
+router.post("/api/baidu", async (context) => {
+  const body = context.request.body();
+  if (body.type === "json") {
+    let json = (await body.value).json;
+    json = JSON.stringify(json);
     console.log("api/baidu/", json);
     if (!_isJson(json)) {
       context.response.body = "json is not valid";
