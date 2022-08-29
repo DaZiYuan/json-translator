@@ -1,5 +1,6 @@
 import { configAsync } from "../deps.ts";
 import { crypto } from "https://deno.land/std@0.126.0/crypto/mod.ts";
+import { consumeMediaParam } from "https://deno.land/std@0.152.0/media_types/_util.ts";
 
 export class trans_result {
   dst?: string;
@@ -17,6 +18,7 @@ export async function translate(query: string): Promise<baidu_result> {
   const to = "zh";
 
   const envConfig = await configAsync();
+  console.log("appid", envConfig.appid);
   const appid: string = envConfig.appid;
   const key: string = envConfig.secret;
   const salt = new Date().getTime().toString();
@@ -54,10 +56,8 @@ export async function translate_json(json: string): Promise<string> {
 
 function _GetContents(json: string) {
   const _obj = JSON.parse(json);
-  console.log("ttttttttt000000", _obj);
   const contents = [];
   for (const pName in _obj) {
-    console.log("ttttttttt", pName);
     contents.push(_obj[pName]);
   }
   return contents;
