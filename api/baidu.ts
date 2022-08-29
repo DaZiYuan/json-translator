@@ -32,22 +32,18 @@ export async function translate(query: string): Promise<baidu_result> {
   };
   const urlParams = new URLSearchParams(param);
   const url = `http://api.fanyi.baidu.com/api/trans/vip/translate?${urlParams}`;
-  console.info("query:", query);
-  console.info("url:", url);
+  console.log("query:", query);
+  console.log("url:", url);
   const resp = await fetch(url);
-  return await resp.json();
+  const res = await resp.json();
+  console.info("res:", res);
+  return res;
 }
 
 export async function translate_json(json: string): Promise<string> {
-  let _obj = JSON.parse(json);
-  //if obj is string
-  if (typeof _obj === "string") {
-    _obj = {
-      content: _obj,
-    };
-  }
+  const _obj = JSON.parse(json);
   const contents = _GetContents(json);
-  console.log(_obj, contents);
+  console.log("contents", contents);
   const translateRes = await translate("\r\n" + contents.join("\r\n"));
   let i = 0;
   for (const pName in _obj) {
@@ -58,8 +54,10 @@ export async function translate_json(json: string): Promise<string> {
 
 function _GetContents(json: string) {
   const _obj = JSON.parse(json);
+  console.log("ttttttttt000000", _obj);
   const contents = [];
   for (const pName in _obj) {
+    console.log("ttttttttt", pName);
     contents.push(_obj[pName]);
   }
   return contents;

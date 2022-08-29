@@ -5,6 +5,8 @@ https://fanyi-api.baidu.com/doc/21
 # 命令
 
 ```
+// 安装denon 
+deno install -qAf --unstable https://deno.land/x/denon/denon.ts
 //启动
 denon start
 //测试

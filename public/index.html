@@ -12,11 +12,12 @@
 </head>
 
 <body>
-    <div id="app">
-        <input v-model="input" placeholder="edit me" />
-        <button @click="translate">翻译</button>
-        {{ result }}
-
+    <div id="app" class="container mx-auto">
+        <div class="min-h-screen flex flex-col">
+            <textarea class="flex-1" v-model="input" placeholder="输入JSON"></textarea>
+            <button class="row" @click="translate">翻译</button>
+            <textarea class="flex-1" v-model="result" placeholder="翻译结果"></textarea>
+        </div>
     </div>
 </body>
 <script>
@@ -25,14 +26,35 @@
     createApp({
         data() {
             return {
-                input: 'Hello Vue!',
+                input: '{test:"Hello world"}',
                 result: ''
             }
         },
         methods: {
+            _isJson(str) {
+                try {
+                    JSON.parse(str);
+                } catch (_e) {
+                    console.log("json invalid", str);
+                    return false;
+                }
+                return true;
+            },
             async translate() {
-                //fetch api/baidu/test
-                const res = await fetch(`/api/baidu/${this.input}`, {
+                let json = this.input;
+                if (!this._isJson(json)) {
+                    //尝试修复json
+                    json = JSON.stringify(eval(`(${json})`));
+                    this.input = json;
+                    console.log("fix json", json);
+                };
+
+                if (!this._isJson(json)) {
+                    this.result = "请输入有效的json";
+                    return;
+                }
+
+                const res = await fetch(`/api/baidu/${encodeURI(json)}`, {
                     method: 'Get',
                     headers: {
                         'Content-Type': 'application/json'
